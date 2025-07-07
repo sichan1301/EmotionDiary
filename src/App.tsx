@@ -1,29 +1,23 @@
 import './App.css'
-import { Route, Routes, Link, useNavigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import New from './pages/New'
 import Diary from './pages/Diary'
 import NotFound from './pages/NotFound'
-import { getEmotionImage } from './util/get-emotion-image'
+// import { getEmotionImage } from './util/get-emotion-image'
+import Button from './components/Button'
+import Header from './components/Header'
 
 function App() {
-  
-  const nav = useNavigate();
-	
-  const handleClick = () => {
-		nav("/new");
-	}
-
-
   return (
     <>
-      <button onClick = {handleClick}>GO to New </button>
-			<Link to ={"/new"}>New</Link>
-      <img src={getEmotionImage(1)} />   
-      <img src={getEmotionImage(2)} />   
-      <img src={getEmotionImage(3)} />   
-      <img src={getEmotionImage(4)} />   
-      <img src={getEmotionImage(5)} />   
+      {/* <img src={getEmotionImage(1)} />    */}
+      
+      <Header 
+        title="으어"
+        leftChild={<Button text='버튼' type='Negative' />}
+        rightChild={<Button text='버튼' type='Positive' />}
+      />
 
       <Routes>
         <Route path = "/" element = {<Home />} />
