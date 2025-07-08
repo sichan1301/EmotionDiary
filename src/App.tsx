@@ -9,16 +9,15 @@ import Edit from './pages/Edit'
 // import { getEmotionImage } from './util/get-emotion-image'
 import Button from './components/Button'
 import Header from './components/Header'
-import { useReducer } from 'react'
+import { createContext, useReducer, useRef } from 'react'
 
-function App() {
-  
   type mockDataType = {
     id: number;
     createdDate: number;
     emotionId: number;
     content: string;
   };
+
   const mockData = [
     {
       id:1,
@@ -30,34 +29,100 @@ function App() {
       id:2,
       createdDate:new Date().getTime(),
       emotionId:2,
-      content:"2번째 내용"
+      content:"2번째 내용" 
     },
-
   ]
-  const reducer = (state:any,action:any) => {
-    return state
+
+  function reducer(state:any, action:any) {
+    switch (action.type) {
+      case 'CREATE': {
+        return [action.data,...state];
+      }
+      case 'UPDATE': {
+        return state.map((item:mockDataType) => item.id === action.data.id ? action:item);
+      }
+      case 'DELETE': {
+        return state.filter((item:mockDataType)=> item.id!==action.data.id);
+      }
+    }
   }
 
+
+type DiaryDispatchType = {
+  onCreate: (createdDate: number, emotionId: number, content: string) => void;
+  onUpdate: (id: number, createdDate: number, emotionId: number, content: string) => void;
+  onDelete: (id: number) => void;
+};
+
+const DiaryStateContext = createContext<mockDataType[]>([]);
+const DiaryDispatchContext = createContext<DiaryDispatchType | undefined>(undefined);
+
+
+function App() {
+  const onCreate = (createdDate:number,emotionId:number, content:string) => {
+    dispatch({
+      type:"CREATE",
+      data:{
+        id:idRef.current++,
+        createdDate,
+        emotionId,
+        content
+      }})
+  }
+
+  const onUpdate = (id:number, createdDate:number,emotionId:number, content:string) => {
+    dispatch({
+      type:"UPDATE",
+      data:{
+        id:id,
+        createdDate,
+        emotionId,
+        content
+      }})      
+  }
+
+  const onDelete = (id:number) => {
+    dispatch({
+      type:"DELETE",
+      data:{
+        id:id,
+    }})   
+  }
+
+  const idRef = useRef(3);
   const [data,dispatch] = useReducer(reducer,mockData)
 
   return (
     <>
       {/* <img src={getEmotionImage(1)} />    */}
       
-      
+      <button onClick = {()=> onCreate( new Date().getTime(), 3, "Hello")}>새로운 일기 으어</button>
+      <button onClick = {()=> onUpdate(1, new Date().getTime(), 3, "Hello")}>일기 수정 으어 </button>
+      <button onClick = {()=> onDelete(2)}>2번 일기 삭제 으어</button>
+
       <Header 
         title="으어"
         leftChild={<Button text='버튼' type='Negative' />}
         rightChild={<Button text='버튼' type='Positive' />}
       />
 
-      <Routes>
-        <Route path = "/" element = {<Home />} />
-        <Route path = "/new" element = {<New />} />
-        <Route path = "/diary/:id" element = {<Diary />} />
-        <Route path = "/edit/:id" element = {<Edit />} />
-        <Route path = "*" element = {<NotFound />} />
-      </Routes>
+      <DiaryStateContext.Provider value = {data}>
+        <DiaryDispatchContext.Provider 
+        value = {{
+          onCreate,
+          onUpdate,
+          onDelete
+        }}>
+          <Routes>
+            <Route path = "/" element = {<Home />} />
+            <Route path = "/new" element = {<New />} />
+            <Route path = "/diary/:id" element = {<Diary />} />
+            <Route path = "/edit/:id" element = {<Edit />} />
+            <Route path = "*" element = {<NotFound />} />
+          </Routes>
+
+        </DiaryDispatchContext.Provider>
+      </DiaryStateContext.Provider>
     </>
   )
 }
