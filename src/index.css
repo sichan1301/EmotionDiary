@@ -5,10 +5,10 @@
 
 
 html, body {
+  font-family: "NanumPenScript";
   width:100%;
   margin:0;
   background-color: rgb(246,246,246);
-  font-family: "NanumPenScript";
 }
 
 #root {
