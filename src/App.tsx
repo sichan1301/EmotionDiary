@@ -10,28 +10,7 @@ import Edit from './pages/Edit'
 import Button from './components/Button'
 import Header from './components/Header'
 import { createContext, useReducer, useRef } from 'react'
-
-  type mockDataType = {
-    id: number;
-    createdDate: number;
-    emotionId: number;
-    content: string;
-  };
-
-  const mockData = [
-    {
-      id:1,
-      createdDate:new Date().getTime(),
-      emotionId:1,
-      content:"1번째 내용"
-    },
-    {
-      id:2,
-      createdDate:new Date().getTime(),
-      emotionId:2,
-      content:"2번째 내용" 
-    },
-  ]
+import { mockData, type mockDataType } from './mockData'
 
   function reducer(state:any, action:any) {
     switch (action.type) {
@@ -54,8 +33,8 @@ type DiaryDispatchType = {
   onDelete: (id: number) => void;
 };
 
-const DiaryStateContext = createContext<mockDataType[]>([]);
-const DiaryDispatchContext = createContext<DiaryDispatchType | undefined>(undefined);
+export const DiaryStateContext = createContext<mockDataType[]>([]);
+export const DiaryDispatchContext = createContext<DiaryDispatchType | undefined>(undefined);
 
 
 function App() {
