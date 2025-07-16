@@ -1,9 +1,13 @@
+import type { mockDataType } from "../mockData";
 import Button from "./Button";
 import DiaryItem from "./DiaryItem";
 import "./DiaryList.css";
 
+interface DiaryListProps {
+  data:mockDataType[]
+}
 
-const DiaryList = () => {
+const DiaryList = ({data}:DiaryListProps) => {
   return(
     <div className="DiaryList">
       <div className="menu_bar">
@@ -15,7 +19,9 @@ const DiaryList = () => {
       </div>
       
       <div className="list_wrapper">
-        <DiaryItem />
+        {data.map((item:mockDataType) => 
+          <DiaryItem key= {item.id} {...item}/>
+        )}
       </div>
     </div>
   )

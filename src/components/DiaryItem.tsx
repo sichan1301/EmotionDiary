@@ -2,9 +2,14 @@ import { getEmotionImage } from "../util/get-emotion-image"
 import Button from "./Button"
 import "./DiaryItem.css";
 
-const DiaryItem = () => {
-  
-  const emotionId = 3;
+
+interface DiaryItemProps{
+  id: number;
+  createdDate: number;
+  emotionId: number;
+  content: string;
+}
+const DiaryItem = ({id,createdDate,emotionId,content}:DiaryItemProps) => {
 
   return(
     <div className="DiaryItem">
@@ -15,9 +20,9 @@ const DiaryItem = () => {
 
       <div className="info_section">
         <div className="created_date">
-          {new Date().toLocaleDateString()}
+          {new Date(createdDate).toLocaleDateString()}
         </div>
-        <div className="content">일기 컨텐츠</div>
+        <div className="content">{content}</div>
       </div>
 
       <div className="button_section">
