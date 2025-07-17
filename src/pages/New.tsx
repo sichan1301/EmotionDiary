@@ -1,6 +1,12 @@
+import Editor from "../components/Editor"
+import Header from "../components/Header"
+
 const New = () => {
 	return (
-		<>New</>
+		<>
+			<Header title="새 일기쓰기" leftChild ="< 뒤로가기"/>
+			<Editor />
+		</>
 	)
 }
 

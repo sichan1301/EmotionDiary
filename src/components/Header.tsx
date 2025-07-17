@@ -2,8 +2,8 @@ import './Header.css'
 
 interface HeaderProps {
   title:string;
-  leftChild:React.ReactNode;
-  rightChild:React.ReactNode;
+  leftChild?:React.ReactNode;
+  rightChild?:React.ReactNode;
 }
 const Header = ({title,leftChild,rightChild}:HeaderProps) => {
   return(
