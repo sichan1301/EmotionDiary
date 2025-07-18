@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Editor.css";
-import EmotionItem from "./emotionItem";
 import Button from "./Button";
+import EmotionItem from "./EmotionItem";
 
 
 const emotionList  = [
@@ -27,28 +27,60 @@ const emotionList  = [
   }
 ]
 
+interface InputType {
+  createdDate: Date;
+  emotionId: null | number;
+  content:string;
+}
 
 
 const Editor = () => {
-  const [selectedEmotion,setSelectedEmotion] = useState<null | number>(null);
   
+  const [input,setInput] = useState<InputType>({
+    createdDate:new Date(),
+    emotionId:null,
+    content:"" 
+  })
+
   const onChangeEmotion = (emotionId:number) => {
-    setSelectedEmotion(emotionId)
-    if(selectedEmotion === emotionId){
-      setSelectedEmotion(null)
+    if(input.emotionId){
+      setInput({...input,emotionId:null})
+    }else{
+      setInput({...input,emotionId})
     }
   }
 
+  const onChangeDateAndContent = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if(e.target.name === "createdDate"){
+      setInput({...input,createdDate:new Date(e.target.value)})
+    }else{
+      setInput({...input,[e.target.name]:e.target.value})
+    }    
+  }
+
+const getStringedDate = useCallback(() => {
+  const year = input.createdDate.getFullYear();
+  const month = input.createdDate.getMonth() + 1;
+  const date = input.createdDate.getDate();
+
+  const stringedMonth = month < 10 ? `0${month}` : `${month}`;
+  const stringedDate = date < 10 ? `0${date}` : `${date}`;
+
+  return `${year}-${stringedMonth}-${stringedDate}`;
+},[input.createdDate]);
+
+
   useEffect(()=>{
-    console.log(selectedEmotion);
-  },[selectedEmotion])
+    getStringedDate();
+    console.log(input);
+  },[input])
 
   return(
     <div className="Editor">
 
       <section className="Editor_date">
         <h4>오늘의 날짜</h4>
-        <input type="date" />
+        <input onChange={onChangeDateAndContent} type="date" name="createdDate" value={getStringedDate()}/>
       </section>
       
       <section className="Editor_emotion">
@@ -58,14 +90,18 @@ const Editor = () => {
             <EmotionItem 
               key= {emotion.emotionId} 
               {...emotion} 
-              selectedEmotion={selectedEmotion} 
+              selectedEmotion={input.emotionId} 
               onChangeEmotion={onChangeEmotion}/>)}
         </div>
       </section>
 
       <section className="Editor_content">
         <h4>오늘의 일기</h4>
-        <textarea placeholder="오늘은 어땠나요"></textarea>
+        <textarea 
+          placeholder="오늘은 어땠나요" 
+          value={input.content} 
+          name="content"
+          onChange={onChangeDateAndContent} />
       </section>
 
       <section className="Editor_button">

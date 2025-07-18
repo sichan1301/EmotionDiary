@@ -73,18 +73,10 @@ function App() {
 
   return (
     <>
-      {/* <img src={getEmotionImage(1)} />    */}
-      
-      <button onClick = {()=> onCreate( new Date().getTime(), 3, "Hello")}>새로운 일기 으어</button>
+      {/* <button onClick = {()=> onCreate( new Date().getTime(), 3, "Hello")}>새로운 일기 으어</button>
       <button onClick = {()=> onUpdate(1, new Date().getTime(), 3, "Hello")}>일기 수정 으어 </button>
-      <button onClick = {()=> onDelete(2)}>2번 일기 삭제 으어</button>
-
-      <Header 
-        title="으어"
-        leftChild={<Button text='버튼' type='Negative' />}
-        rightChild={<Button text='버튼' type='Positive' />}
-      />
-
+      <button onClick = {()=> onDelete(2)}>2번 일기 삭제 으어</button> */}
+      
       <DiaryStateContext.Provider value = {data}>
         <DiaryDispatchContext.Provider 
         value = {{
