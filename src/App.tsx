@@ -7,8 +7,7 @@ import NotFound from './pages/NotFound'
 import Edit from './pages/Edit'
 
 // import { getEmotionImage } from './util/get-emotion-image'
-import Button from './components/Button'
-import Header from './components/Header'
+
 import { createContext, useReducer, useRef } from 'react'
 import { mockData, type mockDataType } from './mockData'
 
@@ -28,17 +27,22 @@ import { mockData, type mockDataType } from './mockData'
 
 
 type DiaryDispatchType = {
-  onCreate: (createdDate: number, emotionId: number, content: string) => void;
+  onCreate: (createdDate: number, emotionId: number | null, content: string) => void;
   onUpdate: (id: number, createdDate: number, emotionId: number, content: string) => void;
   onDelete: (id: number) => void;
 };
 
 export const DiaryStateContext = createContext<mockDataType[]>([]);
-export const DiaryDispatchContext = createContext<DiaryDispatchType | undefined>(undefined);
+export const DiaryDispatchContext = createContext<DiaryDispatchType>({
+    onCreate: () => {},
+    onUpdate: () => {},
+    onDelete: () => {}
+  }
+);
 
 
 function App() {
-  const onCreate = (createdDate:number,emotionId:number, content:string) => {
+  const onCreate = (createdDate:number,emotionId:number | null, content:string) => {
     dispatch({
       type:"CREATE",
       data:{

@@ -27,14 +27,19 @@ const emotionList  = [
   }
 ]
 
-interface InputType {
+export interface InputType {
   createdDate: Date;
   emotionId: null | number;
   content:string;
 }
 
 
-const Editor = () => {
+interface EditorProps {
+  onSubmit:(input:InputType)=>void;
+  goToPrevPage:()=>void;
+}
+
+const Editor = ({onSubmit,goToPrevPage}:EditorProps) => {
   
   const [input,setInput] = useState<InputType>({
     createdDate:new Date(),
@@ -58,16 +63,16 @@ const Editor = () => {
     }    
   }
 
-const getStringedDate = useCallback(() => {
-  const year = input.createdDate.getFullYear();
-  const month = input.createdDate.getMonth() + 1;
-  const date = input.createdDate.getDate();
+  const getStringedDate = useCallback(() => {
+    const year = input.createdDate.getFullYear();
+    const month = input.createdDate.getMonth() + 1;
+    const date = input.createdDate.getDate();
 
-  const stringedMonth = month < 10 ? `0${month}` : `${month}`;
-  const stringedDate = date < 10 ? `0${date}` : `${date}`;
+    const stringedMonth = month < 10 ? `0${month}` : `${month}`;
+    const stringedDate = date < 10 ? `0${date}` : `${date}`;
 
-  return `${year}-${stringedMonth}-${stringedDate}`;
-},[input.createdDate]);
+    return `${year}-${stringedMonth}-${stringedDate}`;
+  },[input.createdDate]);
 
 
   useEffect(()=>{
@@ -105,8 +110,8 @@ const getStringedDate = useCallback(() => {
       </section>
 
       <section className="Editor_button">
-        <Button text="취소하기" type="Default"/>
-        <Button text="작성완료" type="Positive" />
+        <Button text="취소하기" type="Default" onClick = {goToPrevPage}/>
+        <Button text="작성완료" type="Positive" onClick = {()=>onSubmit(input)}/>
       </section>
     </div>
   )

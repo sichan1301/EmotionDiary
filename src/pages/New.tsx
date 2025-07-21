@@ -1,12 +1,27 @@
 import { useNavigate } from "react-router-dom"
-import Editor from "../components/Editor"
+import Editor, { type InputType } from "../components/Editor"
 import Header from "../components/Header"
 import Button from "../components/Button";
+import { useContext } from "react";
+import { DiaryDispatchContext } from "../App";
 
 const New = () => {
 
 	const nav = useNavigate();
 	const goToPrevPage = () => nav(-1);
+
+	const { onCreate } = useContext(DiaryDispatchContext);
+
+	const onSubmit  = (input:InputType) => {
+		onCreate(
+			input.createdDate.getTime(),
+			input.emotionId,
+			input.content
+		);
+
+		nav("/",{replace:true})
+	}
+
 
 	return (
 		<>
@@ -20,7 +35,9 @@ const New = () => {
 					/>
 				}
 			/>
-			<Editor />
+			<Editor 
+				onSubmit = {onSubmit} 
+				goToPrevPage={goToPrevPage} />
 		</>
 	)
 }
