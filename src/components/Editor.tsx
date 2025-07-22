@@ -2,30 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import "./Editor.css";
 import Button from "./Button";
 import EmotionItem from "./EmotionItem";
-
-
-const emotionList  = [
-  {
-    emotionId:1,
-    emotionName:"완전 좋은"
-  },
-    {
-    emotionId:2,
-    emotionName:"좋음"
-  },
-    {
-    emotionId:3,
-    emotionName:"그럭저럭"
-  },
-    {
-    emotionId:4,
-    emotionName:"나쁜"
-  },
-    {
-    emotionId:5,
-    emotionName:"완전 나쁨"
-  }
-]
+import { emotionList } from "../util/constant";
 
 export interface InputType {
   id?:number;
