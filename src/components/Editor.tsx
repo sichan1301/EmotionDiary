@@ -28,6 +28,7 @@ const emotionList  = [
 ]
 
 export interface InputType {
+  id?:number;
   createdDate: Date;
   emotionId: null | number;
   content:string;
@@ -37,9 +38,12 @@ export interface InputType {
 interface EditorProps {
   onSubmit:(input:InputType)=>void;
   goToPrevPage:()=>void;
+  createdDate?:number;
+  emotionId?:number | null;
+  content?:string;
 }
 
-const Editor = ({onSubmit,goToPrevPage}:EditorProps) => {
+const Editor = ({onSubmit,goToPrevPage,createdDate,emotionId,content}:EditorProps) => {
   
   const [input,setInput] = useState<InputType>({
     createdDate:new Date(),
@@ -48,7 +52,7 @@ const Editor = ({onSubmit,goToPrevPage}:EditorProps) => {
   })
 
   const onChangeEmotion = (emotionId:number) => {
-    if(input.emotionId){
+    if(input.emotionId && input.emotionId === emotionId){
       setInput({...input,emotionId:null})
     }else{
       setInput({...input,emotionId})
@@ -76,8 +80,24 @@ const Editor = ({onSubmit,goToPrevPage}:EditorProps) => {
 
 
   useEffect(()=>{
+    if(createdDate && emotionId && content){
+      setInput({
+        createdDate:new Date(createdDate),
+        emotionId:emotionId,
+        content:content 
+      })
+    }
+  },[createdDate,emotionId,content])
+
+  useEffect(()=>{
     getStringedDate();
-    console.log(input);
+
+  },[input.createdDate])
+
+
+
+  useEffect(()=>{
+    console.log(input.emotionId);
   },[input])
 
   return(

@@ -13,6 +13,10 @@ const New = () => {
 	const { onCreate } = useContext(DiaryDispatchContext);
 
 	const onSubmit  = (input:InputType) => {
+		if(!input.content || !input.emotionId || !input.content){
+			window.alert("날짜, 감정, 일기 내용은 필수입니다.")
+			return
+		}
 		onCreate(
 			input.createdDate.getTime(),
 			input.emotionId,

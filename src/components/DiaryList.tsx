@@ -3,7 +3,7 @@ import type { mockDataType } from "../mockData";
 import Button from "./Button";
 import DiaryItem from "./DiaryItem";
 import "./DiaryList.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 interface DiaryListProps {
   data:mockDataType[]
@@ -31,11 +31,6 @@ const DiaryList = ({data}:DiaryListProps) => {
   const goToNewPage = () => {
     nav('/new');
   }
-
-
-  useEffect(()=>{
-    console.log(currentSort);
-  },[currentSort])
 
 
   return(

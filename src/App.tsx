@@ -17,7 +17,7 @@ import { mockData, type mockDataType } from './mockData'
         return [action.data,...state];
       }
       case 'UPDATE': {
-        return state.map((item:mockDataType) => item.id === action.data.id ? action:item);
+        return state.map((item:mockDataType) => item.id === action.data.id ? action.data:item);
       }
       case 'DELETE': {
         return state.filter((item:mockDataType)=> item.id!==action.data.id);
