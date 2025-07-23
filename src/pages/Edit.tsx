@@ -2,20 +2,17 @@ import { useNavigate, useParams } from "react-router-dom"
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Editor, { type InputType } from "../components/Editor";
-import { useContext, useEffect, useState } from "react";
-import { DiaryDispatchContext, DiaryStateContext } from "../App";
-import type { mockDataType } from "../mockData";
+import { useContext } from "react";
+import { DiaryDispatchContext } from "../App";
+import { useDiary } from "../hooks/useDiary";
 
 const Edit = () => {
   const params = useParams(); 
   const nav = useNavigate();
   const goToPrevPage = ()=>nav(-1);
-  const {onDelete , onUpdate} = useContext(DiaryDispatchContext)
-  const [DiaryData,setDiaryData] = useState<mockDataType>();
-  const data = useContext(DiaryStateContext);
+  const {onDelete , onUpdate} = useContext(DiaryDispatchContext) 
+  const diaryData = useDiary(Number(params.id));
 
-  
-  
   const onClickDeleteButton = () => {
     if(window.confirm("정말로 삭제하시겠습니까?")){
       onDelete(Number(params.id));
@@ -34,21 +31,7 @@ const Edit = () => {
       onUpdate(Number(params.id),input.createdDate.getTime(),input.emotionId,input.content)
       nav("/",{replace:true})
     }
-
-
   }
-
-  useEffect(()=>{
-    const diaryData = data.find(diary => diary.id === Number(params.id));
-    
-    if(diaryData){
-      setDiaryData(diaryData)
-    }else{
-      window.alert("존재하지 않는 일기입니다")
-      nav('/',{replace:true})
-    }
-  },[params.id])
-
 
   return (
     <>
@@ -70,7 +53,7 @@ const Edit = () => {
         />
 
       <Editor 
-        {...DiaryData}
+        {...diaryData}
         onSubmit={onSubmit} 
         goToPrevPage={goToPrevPage}/>
     </>

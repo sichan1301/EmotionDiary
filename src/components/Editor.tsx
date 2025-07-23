@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./Editor.css";
 import Button from "./Button";
 import EmotionItem from "./EmotionItem";
 import { emotionList } from "../util/constant";
+import { getStringedDate } from "../util/getStringedDate";
 
 export interface InputType {
   id?:number;
@@ -44,17 +45,8 @@ const Editor = ({onSubmit,goToPrevPage,createdDate,emotionId,content}:EditorProp
     }    
   }
 
-  const getStringedDate = useCallback(() => {
-    const year = input.createdDate.getFullYear();
-    const month = input.createdDate.getMonth() + 1;
-    const date = input.createdDate.getDate();
-
-    const stringedMonth = month < 10 ? `0${month}` : `${month}`;
-    const stringedDate = date < 10 ? `0${date}` : `${date}`;
-
-    return `${year}-${stringedMonth}-${stringedDate}`;
-  },[input.createdDate]);
-
+  
+  const stringedDate = useMemo(()=>getStringedDate(input.createdDate),[input.createdDate]) ;
 
   useEffect(()=>{
     if(createdDate && emotionId && content){
@@ -65,11 +57,6 @@ const Editor = ({onSubmit,goToPrevPage,createdDate,emotionId,content}:EditorProp
       })
     }
   },[createdDate,emotionId,content])
-
-  useEffect(()=>{
-    getStringedDate();
-
-  },[input.createdDate])
 
 
 
@@ -82,7 +69,7 @@ const Editor = ({onSubmit,goToPrevPage,createdDate,emotionId,content}:EditorProp
 
       <section className="Editor_date">
         <h4>오늘의 날짜</h4>
-        <input onChange={onChangeDateAndContent} type="date" name="createdDate" value={getStringedDate()}/>
+        <input onChange={onChangeDateAndContent} type="date" name="createdDate" value={stringedDate}/>
       </section>
       
       <section className="Editor_emotion">
