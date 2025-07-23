@@ -2,8 +2,6 @@ import { emotionList } from "../util/constant";
 import { getEmotionImage } from "../util/get-emotion-image";
 import "./Viewer.css";
 
-
-
 interface ViewerProps {
   emotionId:number;
   content:string;
