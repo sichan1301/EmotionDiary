@@ -36,6 +36,8 @@ const Home = () => {
 	},[pivotDate,data])
 
 
+	// if(!data) return
+
 	return (			
 		<>
 			<Header
