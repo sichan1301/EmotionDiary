@@ -25,7 +25,6 @@ const Diary = () => {
 			<Header 
 				title={`${todayDate} 기록`} 
 				leftChild={<Button  text="< 뒤로가기" type="Default" onClick={goToPrevPage}/>} 
-				rightChild={<Button text="수정하기" type="Default" />} 
 			/>
 
 			<Viewer emotionId={emotionId} content={content}/>

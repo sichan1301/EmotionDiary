@@ -24,7 +24,7 @@ const DiaryList = ({data}:DiaryListProps) => {
         return a.createdDate - b.createdDate
       }
     })
-  },[currentSort])
+  },[currentSort,data])
 
   const nav = useNavigate();
 

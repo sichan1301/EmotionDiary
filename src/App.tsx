@@ -13,8 +13,6 @@ import { type mockDataType } from './mockData'
 
   function reducer(state:any, action:any) { 
     let nextState;
-    
-
     switch (action.type) {
       case 'INIT': 
         return action.data;
