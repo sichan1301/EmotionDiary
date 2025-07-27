@@ -12,7 +12,6 @@ const Diary = () => {
 	const goToPrevPage = () => nav(-1)
 	const diaryData = useDiary(Number(params.id));
 	 
-	
 	if(!diaryData){
 		return <div>...데이터 로딩중</div>
 	}
